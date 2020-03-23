@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "680931223895",
+    "firebase_url": "https://test-app-557ba.firebaseio.com",
+    "project_id": "test-app-557ba",
+    "storage_bucket": "test-app-557ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680931223895:android:88e5dc6add83ce0e8ab612",
+        "android_client_info": {
+          "package_name": "com.abhirupdeb.testapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680931223895-3404egq0h1su9io0alg12br7q9g6b19v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpD4_ymGIjkLq4rSPsEmbofyk9QvxjWGs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680931223895-3404egq0h1su9io0alg12br7q9g6b19v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
