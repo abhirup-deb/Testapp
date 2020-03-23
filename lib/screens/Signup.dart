@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:testapp/screens/Signin.dart';
@@ -145,6 +147,7 @@ class _SignupState extends State<Signup>{
                     var response = await http.get(apikey);
                     if (response.statusCode == 200) {
                       response = await http.post(apikey,body:{'emailid': '_email', 'password': '_pass'});
+                      response = await http.get('34.93.21.176/verify?e=$_email&t=EyrMU');
                     } else {
                       print('Request failed with status: ${response.statusCode}.');
                     }
