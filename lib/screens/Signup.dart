@@ -1,12 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:testapp/screens/Signin.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
+const apikey ='34.93.21.176/signup';
+
+
 
 
 
@@ -30,9 +32,6 @@ class _SignupState extends State<Signup>{
   double long;
   Position position;
 
-  final _auth = FirebaseAuth.instance;
-  final _firestore = Firestore.instance;
-  final AUTH = AuthResult;
 
 
   void getLocation() async {
@@ -142,14 +141,13 @@ class _SignupState extends State<Signup>{
                     }
                   });
                   if(_validate1==false && _validate2==false && _validate3==false && digit==true && lat!=null) {
-                    _firestore.collection('info').add({  'email': _email,'location': lat.toString(),'name': _name, 'password': _pass, });
-                    assert(EmailValidator.validate(_email));
 
-
-
-                    final Newuser = await _auth.createUserWithEmailAndPassword(
-                        email: _email, password: _pass);
-
+                    var response = await http.get(apikey);
+                    if (response.statusCode == 200) {
+                      response = await http.post(apikey,body:{'emailid': '_email', 'password': '_pass'});
+                    } else {
+                      print('Request failed with status: ${response.statusCode}.');
+                    }
 
                     Navigator.pushNamed(context,Signin.id);
 

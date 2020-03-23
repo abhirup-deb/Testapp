@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:testapp/screens/Dashboard.dart';
 import 'package:testapp/screens/Signup.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+import 'package:flushbar/flushbar.dart';
 
+const apikey ='34.93.21.176/login';
 
 
 class Signin extends StatefulWidget{
@@ -13,7 +16,6 @@ class Signin extends StatefulWidget{
 
 class _SigninState extends State<Signin>{
 
-  final _auth = FirebaseAuth.instance;
   String _pass;
   String _email;
 
@@ -48,17 +50,37 @@ class _SigninState extends State<Signin>{
                     ),)),
                 SizedBox(height: 4.0,),
                 RaisedButton(onPressed: () async {
-                  try {
-                    final user = await _auth.signInWithEmailAndPassword(
-                        email: _email.trim(), password: _pass.trim());
-                    if (user != null) {
-                      Navigator.pushNamed(context, Dashboard.id);
+
+                  var response = await http.get(apikey);
+                  if (response.statusCode == 200) {
+                    int i=0;
+                    while(i>0){
+                      var email = convert.jsonDecode(response.body)[i]['emailid'];
+                      var pass = convert.jsonDecode(response.body)[i]['password'];
+                      if(email.toString()!=null){
+                        if(email==_email && pass.toString()==_pass){
+                          Navigator.pushNamed(context, Dashboard.id);
+                        }
+                        else{
+                          Flushbar(
+                            message: "Enter Correct Email and Password",
+                            icon: Icon(
+                              Icons.info,
+                              size: 20.0,
+                              color: Colors.red[500],
+                            ),
+                            duration: Duration(seconds: 5),
+                            leftBarIndicatorColor: Colors.red[200],
+                          )..show(context);
+                        }
+                      }
+                      else{ break;}
+                      }
+                      i++;
                     }
-                  }
-                  catch (e) {
-                    print(e);
-                  }
-                },
+                  else {
+                    print('Request failed with status: ${response.statusCode}.');
+                  }},
                   child: Text('Login',style: TextStyle(fontSize: 20.0),),color: Colors.orangeAccent,elevation: 7.0,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(38.0),),),
 
                 SizedBox(
